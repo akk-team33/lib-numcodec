@@ -26,6 +26,12 @@ public class NumberCodecTest {
     }
 
     @Test
+    public final void encode10Zero() {
+        final BigInteger sample = BigInteger.ZERO;
+        assertEquals(sample.toString(), SUBJECT10.encode(sample));
+    }
+
+    @Test
     public final void encode10negative() {
         final BigInteger sample = BigInteger.ZERO.subtract(newBigInteger());
         assertEquals(sample.toString(), SUBJECT10.encode(sample));
