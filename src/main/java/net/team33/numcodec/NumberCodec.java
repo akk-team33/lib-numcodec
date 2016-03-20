@@ -20,7 +20,7 @@ public class NumberCodec {
     }
 
     public final String encode(final BigInteger number) {
-        return Encoder.valueOf(BigInteger.ZERO.compareTo(number))
+        return Encoder.valueOf(number)
                 .encode(number, this);
     }
 
@@ -43,8 +43,8 @@ public class NumberCodec {
             }
         };
 
-        private static Encoder valueOf(final int cmp) {
-            return (0 < cmp) ? NEGATIVE : POSITIVE;
+        private static Encoder valueOf(final BigInteger number) {
+            return (0 < BigInteger.ZERO.compareTo(number)) ? NEGATIVE : POSITIVE;
         }
 
         abstract String encode(BigInteger num, NumberCodec codec);
