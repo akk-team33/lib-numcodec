@@ -72,6 +72,13 @@ public class PlainCodecTest {
     }
 
     @Test
+    public final void decode10Zero() {
+        final BigInteger origin = BigInteger.ZERO;
+        final String sample = SUBJECT10.encode(origin);
+        assertEquals(origin, SUBJECT10.decode(sample));
+    }
+
+    @Test
     public final void decode16() {
         final BigInteger origin = newBigInteger();
         final String sample = SUBJECT16.encode(origin);

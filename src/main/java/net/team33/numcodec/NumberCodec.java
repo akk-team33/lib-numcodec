@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 public class NumberCodec {
 
+    private final String minus = "-";
     private final PlainCodec plain;
 
     private NumberCodec(final String digits, final int minLength) {
@@ -24,7 +25,7 @@ public class NumberCodec {
     }
 
     public final BigInteger decode(final String encoded) throws NumberFormatException {
-        return plain.decode(encoded);
+        return Decoder.valueOf(encoded, this).decode(encoded, this);
     }
 
     private enum Encoder {
@@ -38,7 +39,7 @@ public class NumberCodec {
         NEGATIVE {
             @Override
             String encode(final BigInteger num, final NumberCodec codec) {
-                return "-" + POSITIVE.encode(BigInteger.ZERO.subtract(num), codec);
+                return codec.minus + POSITIVE.encode(BigInteger.ZERO.subtract(num), codec);
             }
         };
 
@@ -47,5 +48,27 @@ public class NumberCodec {
         }
 
         abstract String encode(BigInteger num, NumberCodec codec);
+    }
+
+    private enum Decoder {
+
+        POSITIVE {
+            @Override
+            BigInteger decode(final String encoded, final NumberCodec codec) {
+                return codec.plain.decode(encoded);
+            }
+        },
+        NEGATIVE {
+            @Override
+            BigInteger decode(final String encoded, final NumberCodec codec) {
+                return BigInteger.ZERO.subtract(POSITIVE.decode(encoded.substring(codec.minus.length()), codec));
+            }
+        };
+
+        private static Decoder valueOf(final String encoded, final NumberCodec codec) {
+            return encoded.startsWith(codec.minus) ? NEGATIVE : POSITIVE;
+        }
+
+        abstract BigInteger decode(String encoded, NumberCodec codec);
     }
 }

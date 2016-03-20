@@ -53,7 +53,7 @@ public class PlainCodec {
             if (0 > value) {
                 throw new NumberFormatException(
                         String.format(
-                                "Illegal digit <%s> at index <%d>",
+                                "Illegal digit '%s' at index %d",
                                 digit, index));
             } else {
                 result = result.multiply(base).add(BigInteger.valueOf(value));
