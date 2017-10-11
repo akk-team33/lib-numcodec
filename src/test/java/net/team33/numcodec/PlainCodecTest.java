@@ -24,6 +24,11 @@ public class PlainCodecTest {
     }
 
     @Test(expected = NullPointerException.class)
+    public final void usingIllegal() {
+        PlainCodec.using(null, 1);
+    }
+
+    @Test(expected = NullPointerException.class)
     public final void encodeNull() {
         SUBJECT10.encode(null);
     }
